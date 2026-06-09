@@ -107,12 +107,3 @@ karatina_dental/
 ```
 
 ---
-
-## Developer
-
-**Student:** [Your Full Name] | **Reg No:** [Your Registration Number]
-**Supervisor:** [Supervisor Name]
-**Institution:** Karatina University — School of Informatics and Innovation
-**Department:** Department of Computing and Informatics
-**Programme:** BSc Information Technology
-**Year:** 2026

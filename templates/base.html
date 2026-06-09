@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Karatina Dental Clinic{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<!-- ── Top Bar ─────────────────────────────────────────────── -->
+<div class="top-bar d-none d-md-block">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div class="d-flex gap-4">
+      <span><i class="fas fa-phone me-1"></i>
+        <a href="tel:+254748681792">+254 748 681 792</a></span>
+      <span><i class="fas fa-envelope me-1"></i>
+        <a href="mailto:info@karatinadental.co.ke">karatinaclinic@gmail.com</a></span>
+    </div>
+    <div><i class="fas fa-clock me-1"></i> Mon – Sat: 8:00 AM – 6:00 PM</div>
+  </div>
+</div>
+
+<!-- ── Navbar ──────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none"
+       href="{% url 'home' %}">
+      <div class="navbar-brand-logo"><i class="fas fa-tooth"></i></div>
+      <div>
+        <div class="navbar-brand-name">Karatina Dental</div>
+        <div class="navbar-brand-sub">CLINIC</div>
+      </div>
+    </a>
+
+    <button class="navbar-toggler border-0" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+             href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}"
+             href="{% url 'services' %}">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+             href="{% url 'contact' %}">Contact</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'my_appointments' %}active{% endif %}"
+               href="{% url 'my_appointments' %}">
+              <i class="fas fa-calendar-check me-1"></i>My Appointments
+            </a>
+          </li>
+          {% if user.is_staff %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"
+               href="{% url 'admin_dashboard' %}">
+              <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+            </a>
+          </li>
+          {% endif %}
+        {% endif %}
+      </ul>
+
+      <div class="d-flex align-items-center gap-2">
+        {% if user.is_authenticated %}
+          <span class="nav-user-chip">
+            <i class="fas fa-user-circle me-1"></i>
+            {{ user.first_name|default:user.username }}
+          </span>
+          <a href="{% url 'logout' %}"
+             class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}"
+             class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            Login
+          </a>
+          <a href="{% url 'book_appointment' %}" class="btn-book">
+            <i class="fas fa-calendar-plus me-1"></i>Book Now
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Flash Messages ──────────────────────────────────────── -->
+{% if messages %}
+<div class="container mt-3">
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm">
+      <i class="fas fa-info-circle me-2"></i>{{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- ── Page Content ─────────────────────────────────────────── -->
+{% block content %}{% endblock %}
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="pt-5 pb-3 mt-5">
+  <div class="container">
+    <div class="row g-4 mb-4">
+
+      <div class="col-lg-4">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div style="background:var(--teal);color:#fff;border-radius:8px;
+                      width:36px;height:36px;display:flex;align-items:center;
+                      justify-content:center;">
+            <i class="fas fa-tooth"></i>
+          </div>
+          <span style="color:#fff;font-weight:800;font-size:17px;">
+            Karatina Dental Clinic
+          </span>
+        </div>
+        <p style="line-height:1.8;">
+          Providing quality, affordable dental care to the Karatina community
+          and surrounding Nyeri County area since 2015.
+        </p>
+        <div class="footer-social d-flex gap-2 mt-3">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/254748681792" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-4">
+        <h6>Quick Links</h6>
+        <ul class="list-unstyled" style="line-height:2.2;">
+          <li><a href="{% url 'home' %}">
+            <i class="fas fa-chevron-right me-1" style="color:var(--teal);font-size:10px;"></i>Home</a></li>
+          <li><a href="{% url 'services' %}">
+            <i class="fas fa-chevron-right me-1" style="color:var(--teal);font-size:10px;"></i>Services</a></li>
+          <li><a href="{% url 'book_appointment' %}">
+            <i class="fas fa-chevron-right me-1" style="color:var(--teal);font-size:10px;"></i>Book Appointment</a></li>
+          <li><a href="{% url 'contact' %}">
+            <i class="fas fa-chevron-right me-1" style="color:var(--teal);font-size:10px;"></i>Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        <h6>Our Services</h6>
+        <div class="row g-0 footer-services">
+          <div class="col-6">
+            <ul class="list-unstyled mb-0">
+              <li><a href="{% url 'book_appointment' %}">
+                <i class="fas fa-chevron-right me-1"></i>Dental Cleaning</a></li>
+              <li><a href="{% url 'book_appointment' %}">
+                <i class="fas fa-chevron-right me-1"></i>Tooth Extraction</a></li>
+              <li><a href="{% url 'book_appointment' %}">
+                <i class="fas fa-chevron-right me-1"></i>Teeth Whitening</a></li>
+            </ul>
+          </div>
+          <div class="col-6">
+            <ul class="list-unstyled mb-0">
+              <li><a href="{% url 'book_appointment' %}">
+                <i class="fas fa-chevron-right me-1"></i>Root Canal</a></li>
+              <li><a href="{% url 'book_appointment' %}">
+                <i class="fas fa-chevron-right me-1"></i>Dental Fillings</a></li>
+              <li><a href="{% url 'book_appointment' %}">
+                <i class="fas fa-chevron-right me-1"></i>Dental Crowns</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        <h6>Contact Us</h6>
+        <ul class="list-unstyled" style="line-height:2.4;">
+          <li>
+            <i class="fas fa-map-marker-alt me-2" style="color:var(--teal);"></i>
+            Karatina Plaza, Karatina Town, Nyeri County
+          </li>
+          <li>
+            <i class="fas fa-phone me-2" style="color:var(--teal);"></i>
+            <a href="tel:+254748681792">+254 748 681 792</a>
+          </li>
+          <li>
+            <i class="fas fa-envelope me-2" style="color:var(--teal);"></i>
+            <a href="mailto:info@karatinadental.co.ke">karatinaclinic@gmail.com</a>
+          </li>
+          <li>
+            <i class="fas fa-clock me-2" style="color:var(--teal);"></i>
+            Mon–Sat: 8AM – 6PM
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center rounded mt-2">
+      <small>
+        &copy; 2026 Karatina Dental Clinic. All rights reserved.
+        &nbsp;|&nbsp;
+        Developed as BSc IT Final Year Project — Karatina University
+      </small>
+    </div>
+  </div>
+</footer>
+
+<!-- ── WhatsApp Float ──────────────────────────────────────── -->
+<a href="https://wa.me/254748681792" target="_blank" class="whatsapp-float">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appointment Confirmation</title>
+    <style>
+      @page { size: 8.27in 11.69in; margin: 0.79in }
+      h1 { color: #1f4e78; margin-bottom: 0.08in; background: transparent; page-break-after: avoid }
+      h1.western { font-family: "Arial", sans-serif; font-size: 14pt; font-weight: bold }
+      h1.cjk { font-family: "Arial"; font-size: 14pt; font-weight: bold }
+      h1.ctl { font-family: "Arial"; font-size: 14pt; font-weight: bold }
+      p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+      a:link { color: #0563c1; text-decoration: underline }
+      body { font-family: Arial, sans-serif; color: #111827; }
+      .brand { font-size: 18pt; font-weight: bold; color: #1f4e78; line-height: 1.2; margin: 0; }
+      .tagline { font-size: 11pt; color: #374151; font-style: italic; margin: 4px 0 18px 0; }
+      .heading { font-size: 18pt; font-weight: bold; color: #111827; margin: 18px 0 10px 0; }
+      .muted { color: #4b5563; }
+      .details { margin-top: 14px; }
+      .detail-box { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin: 10px 0; background: #f9fafb; }
+      .label { font-weight: bold; color: #111827; display: inline-block; min-width: 90px; }
+      .section-title { font-size: 12pt; font-weight: bold; color: #111827; margin-top: 14px; margin-bottom: 6px; }
+      .footer-note { color: #374151; font-size: 10pt; }
+    </style>
+  </head>
+  <body>
+    <p class="brand">KARATINA<br />DENTAL CLINIC</p>
+    <p class="tagline">Professional<br />Dental Care Excellence</p>
+
+    <h1 class="heading">Appointment Confirmation</h1>
+
+    <p>Dear {{ patient_name }},</p>
+
+    <p>Thank you for choosing Karatina Dental Clinic for your dental care. We are pleased to confirm your upcoming appointment.</p>
+
+    <div class="details">
+      <div class="detail-box"><span class="label">Doctor:</span> {{ doctor_name }} — {{ doctor_specialization }}</div>
+      <div class="detail-box"><span class="label">Date:</span> {{ appointment_date }}</div>
+      <div class="detail-box"><span class="label">Time:</span> {{ appointment_time }}</div>
+      <div class="detail-box"><span class="label">Location:</span> {{ clinic_location }}</div>
+    </div>
+
+    <p class="section-title">Important Information</p>
+    <p>We will send you a reminder email 24 hours before your appointment to help ensure you don’t miss your visit.</p>
+    <p>Please arrive 10 minutes early to complete any necessary paperwork. If you need to reschedule or cancel, please contact us at least 24 hours in advance.</p>
+    <p>We look forward to providing you with excellent dental care.</p>
+
+    <p>Best regards,</p>
+    <p><strong>Karatina Dental Clinic</strong><br />Professional Dental Services</p>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Register — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="container">
+    <div class="row justify-content-center align-items-center g-5">
+
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="auth-info-panel">
+          <div class="text-center mb-4">
+            <div style="width:80px;height:80px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;color:#fff;">
+              <i class="fas fa-tooth"></i>
+            </div>
+            <h3>Join Karatina Dental</h3>
+            <p>Create a free patient account to book dental appointments online.</p>
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-bolt"></i></div>
+            Quick and easy online appointment booking
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-bell"></i></div>
+            Automated email reminders before your appointment
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-shield-alt"></i></div>
+            Your data is secure and never shared
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-mobile-alt"></i></div>
+            Access your account from any device, anywhere
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 col-md-8">
+        <div class="auth-card">
+          <div class="auth-banner">
+            <div class="auth-banner-icon"><i class="fas fa-user-plus"></i></div>
+            <h4>Create Patient Account</h4>
+            <p>Register to book appointments online</p>
+          </div>
+          <div class="auth-body">
+            <form method="post">
+              {% csrf_token %}
+              <div class="row g-3">
+                <div class="col-6">
+                  <label class="form-label">First Name *</label>
+                  <input type="text" name="first_name" class="form-control" placeholder="e.g. Jane" required value="{{ request.POST.first_name|default:'' }}">
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" name="last_name" class="form-control" placeholder="e.g. Wanjiku" value="{{ request.POST.last_name|default:'' }}">
+                </div>
+              </div>
+              <div class="mb-3 mt-3">
+                <label class="form-label">Username *</label>
+                <input type="text" name="username" class="form-control" placeholder="Choose a username" required value="{{ request.POST.username|default:'' }}">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Email Address *</label>
+                <input type="email" name="email" class="form-control" placeholder="For appointment reminders" required value="{{ request.POST.email|default:'' }}">
+                <div class="form-text">We send confirmation emails to this address.</div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password *</label>
+                <input type="password" name="password1" class="form-control" placeholder="Minimum 8 characters" required>
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Confirm Password *</label>
+                <input type="password" name="password2" class="form-control" placeholder="Repeat your password" required>
+              </div>
+              <button type="submit" class="btn-auth">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+              </button>
+            </form>
+            <div class="auth-footer">
+              Already have an account? <a href="{% url 'login' %}">Sign in here</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

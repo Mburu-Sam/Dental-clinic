@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}My Appointments — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <h2><i class="fas fa-calendar-check me-2"></i>My Appointments</h2>
+      <p>Hello, {{ user.first_name|default:user.username }} — here are your dental appointments</p>
+    </div>
+    <a href="{% url 'book_appointment' %}" class="btn-teal">
+      <i class="fas fa-plus me-2"></i>Book New Appointment
+    </a>
+  </div>
+</div>
+
+<div class="container py-5">
+
+  <!-- Summary Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="summary-card">
+        <div class="summary-icon si-teal">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div>
+          <h3>{{ total }}</h3>
+          <p>Total</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="summary-card">
+        <div class="summary-icon si-orange">
+          <i class="fas fa-hourglass-half"></i>
+        </div>
+        <div>
+          <h3>{{ pending }}</h3>
+          <p>Pending</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="summary-card">
+        <div class="summary-icon si-green">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div>
+          <h3>{{ confirmed }}</h3>
+          <p>Confirmed</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="summary-card">
+        <div class="summary-icon si-red">
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <div>
+          <h3>{{ cancelled }}</h3>
+          <p>Cancelled</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Appointments Table -->
+  <div class="appt-table-card">
+    <div class="card-top">
+      <h5><i class="fas fa-list me-2"></i>Appointment History</h5>
+      <a href="{% url 'book_appointment' %}" class="btn-action teal">
+        <i class="fas fa-plus"></i> New
+      </a>
+    </div>
+
+    {% if appointments %}
+      <div class="table-responsive">
+        <table class="table appt-table mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Dentist</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Reason</th>
+              <th>Booked On</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for appt in appointments %}
+              <tr>
+                <td class="text-muted" style="font-size:12px;">
+                  #{{ appt.id }}
+                </td>
+                <td>
+                  <div class="doctor-chip">
+                    <div class="doctor-chip-avatar">
+                      {{ appt.slot.doctor.name|first }}
+                    </div>
+                    <div>
+                      <div class="fw-semibold" style="font-size:13.5px;">
+                       {{ appt.slot.doctor.display_name }}
+                      </div>
+                      <div class="text-muted" style="font-size:12px;">
+                        {{ appt.slot.doctor.specialization }}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <i class="fas fa-calendar me-1" style="color:var(--teal);"></i>
+                  {{ appt.slot.date|date:"D, d M Y" }}
+                </td>
+                <td>
+                  <i class="fas fa-clock me-1" style="color:var(--teal);"></i>
+                  {{ appt.slot.start_time|time:"H:i" }}
+                </td>
+                <td style="max-width:180px;">
+                  <span style="font-size:13px;color:#555;">
+                    {{ appt.reason|default:"—"|truncatewords:6 }}
+                  </span>
+                </td>
+                <td style="font-size:12.5px;color:#888;">
+                  {{ appt.booked_at|date:"d M Y" }}
+                </td>
+                <td>
+                  {% if appt.status == 'confirmed' %}
+                    <span class="badge-confirmed">
+                      <i class="fas fa-check me-1"></i>Confirmed
+                    </span>
+                  {% elif appt.status == 'cancelled' %}
+                    <span class="badge-cancelled">
+                      <i class="fas fa-times me-1"></i>Cancelled
+                    </span>
+                  {% else %}
+                    <span class="badge-pending">
+                      <i class="fas fa-hourglass-half me-1"></i>Pending
+                    </span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if appt.status == 'pending' %}
+                    <a href="{% url 'cancel_appointment' appt.id %}"
+                       class="btn-cancel"
+                       onclick="return confirm('Cancel appointment with {{ appt.slot.doctor.display_name }} on {{ appt.slot.date }}?')">
+                      <i class="fas fa-times me-1"></i>Cancel
+                    </a>
+                  {% else %}
+                    <span class="text-muted" style="font-size:12px;">—</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fas fa-calendar-times"></i>
+        <h5>No Appointments Yet</h5>
+        <p class="text-muted">You have not booked any appointments yet.</p>
+        <a href="{% url 'book_appointment' %}" class="btn-teal mt-2">
+          <i class="fas fa-calendar-plus me-2"></i>Book Your First Appointment
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

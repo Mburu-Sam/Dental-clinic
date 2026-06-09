@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Login — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="container">
+    <div class="row justify-content-center align-items-center g-5">
+
+      <!-- Left: Info Panel -->
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="auth-info-panel">
+          <div class="text-center mb-4">
+            <div style="width:80px;height:80px;background:rgba(255,255,255,.15);
+                        border-radius:50%;display:flex;align-items:center;
+                        justify-content:center;margin:0 auto 16px;font-size:36px;color:#fff;">
+              <i class="fas fa-tooth"></i>
+            </div>
+            <h3>Karatina Dental Clinic</h3>
+            <p>Sign in to book and manage your dental appointments online.</p>
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-calendar-check"></i></div>
+            Book appointments 24 hours a day, 7 days a week
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-bell"></i></div>
+            Receive automated email appointment reminders
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-history"></i></div>
+            View your full appointment history at any time
+          </div>
+          <div class="auth-info-item">
+            <div class="auth-info-icon"><i class="fas fa-times-circle"></i></div>
+            Cancel bookings easily from your account
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Login Card -->
+      <div class="col-lg-5 col-md-8">
+        <div class="auth-card">
+          <div class="auth-banner">
+            <div class="auth-banner-icon">
+              <i class="fas fa-sign-in-alt"></i>
+            </div>
+            <h4>Welcome Back</h4>
+            <p>Sign in to your patient account</p>
+          </div>
+          <div class="auth-body">
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <div class="input-group">
+                  <span class="input-group-text" style="border-radius:10px 0 0 10px;
+                        border:1.5px solid var(--border);background:var(--gray-lt);">
+                    <i class="fas fa-user" style="color:var(--teal);"></i>
+                  </span>
+                  <input type="text" name="username" class="form-control"
+                         placeholder="Enter your username" required
+                         style="border-radius:0 10px 10px 0;">
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text" style="border-radius:10px 0 0 10px;
+                        border:1.5px solid var(--border);background:var(--gray-lt);">
+                    <i class="fas fa-lock" style="color:var(--teal);"></i>
+                  </span>
+                  <input type="password" name="password" class="form-control"
+                         placeholder="Enter your password" required
+                         style="border-radius:0 10px 10px 0;">
+                </div>
+              </div>
+              {% if form.errors %}
+                <div class="alert alert-danger py-2" style="font-size:13.5px;">
+                  <i class="fas fa-exclamation-circle me-2"></i>
+                  Invalid username or password. Please try again.
+                </div>
+              {% endif %}
+              <button type="submit" class="btn-auth">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+              </button>
+            </form>
+            <div class="auth-footer">
+              Don't have an account?
+              <a href="{% url 'register' %}">Register here</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

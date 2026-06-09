@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Our Services — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+<section class="section-py">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Our Services</span>
+      <h2 class="section-title mt-2">Dental Care Services</h2>
+      <div class="title-bar"></div>
+      <p class="text-muted mt-3" style="max-width:620px;margin:auto;">
+        Discover the full range of dental services offered at Karatina Dental Clinic.
+        These services are maintained in a shared data file, not manually added through admin.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      {% for service in services %}
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="service-icon"><i class="{{ service.icon }}"></i></div>
+            <h5>{{ service.name }}</h5>
+            <p>{{ service.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{% url 'book_appointment' %}" class="btn-teal btn-lg px-5 rounded-pill">
+        <i class="fas fa-calendar-plus me-2"></i>Book a Service Now
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

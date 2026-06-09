@@ -1,0 +1,191 @@
+[
+  {
+    "name": "General Dental Consultation",
+    "description": "Comprehensive oral examination to assess dental health, identify problems, and recommend appropriate treatment plans.",
+    "icon": "fas fa-user-md",
+    "order": 1,
+    "is_active": true
+  },
+  {
+    "name": "Dental Checkups & Oral Exams",
+    "description": "Routine examinations that help detect cavities, gum disease, oral infections, and other dental issues at an early stage.",
+    "icon": "fas fa-file-medical",
+    "order": 2,
+    "is_active": true
+  },
+  {
+    "name": "Professional Teeth Cleaning",
+    "description": "Removal of plaque, tartar, and stains from teeth to maintain oral hygiene and prevent dental diseases.",
+    "icon": "fas fa-toothbrush",
+    "order": 3,
+    "is_active": true
+  },
+  {
+    "name": "Dental Fillings",
+    "description": "Restoration of teeth damaged by cavities using durable filling materials to restore function and appearance.",
+    "icon": "fas fa-tooth",
+    "order": 4,
+    "is_active": true
+  },
+  {
+    "name": "Tooth Extraction",
+    "description": "Safe removal of severely damaged, infected, or problematic teeth when preservation is not possible.",
+    "icon": "fas fa-tooth",
+    "order": 5,
+    "is_active": true
+  },
+  {
+    "name": "Wisdom Tooth Removal",
+    "description": "Surgical extraction of impacted or problematic wisdom teeth to relieve pain and prevent complications.",
+    "icon": "fas fa-tooth",
+    "order": 6,
+    "is_active": true
+  },
+  {
+    "name": "Root Canal Treatment",
+    "description": "Treatment that removes infected pulp from inside a tooth, relieving pain and saving the natural tooth.",
+    "icon": "fas fa-tooth",
+    "order": 7,
+    "is_active": true
+  },
+  {
+    "name": "Dental Crowns",
+    "description": "Custom-made caps placed over damaged or weakened teeth to restore their strength, function, and appearance.",
+    "icon": "fas fa-crown",
+    "order": 8,
+    "is_active": true
+  },
+  {
+    "name": "Dental Bridges",
+    "description": "Fixed dental restorations used to replace one or more missing teeth by anchoring artificial teeth to adjacent teeth.",
+    "icon": "fas fa-link",
+    "order": 9,
+    "is_active": true
+  },
+  {
+    "name": "Dental Implants",
+    "description": "Permanent tooth replacement solution involving titanium implants that support artificial teeth.",
+    "icon": "fas fa-tooth",
+    "order": 10,
+    "is_active": true
+  },
+  {
+    "name": "Dentures",
+    "description": "Removable prosthetic devices designed to replace missing teeth and restore chewing and speaking abilities.",
+    "icon": "fas fa-teeth",
+    "order": 11,
+    "is_active": true
+  },
+  {
+    "name": "Teeth Whitening",
+    "description": "Cosmetic treatment that brightens teeth by removing stains and discoloration for a whiter smile.",
+    "icon": "fas fa-smile-beam",
+    "order": 12,
+    "is_active": true
+  },
+  {
+    "name": "Dental Veneers",
+    "description": "Thin custom-made shells placed on the front of teeth to improve appearance, shape, and color.",
+    "icon": "fas fa-smile",
+    "order": 13,
+    "is_active": true
+  },
+  {
+    "name": "Orthodontic Consultation",
+    "description": "Assessment of teeth alignment and bite issues to determine the need for braces or aligners.",
+    "icon": "fas fa-comments",
+    "order": 14,
+    "is_active": true
+  },
+  {
+    "name": "Braces Treatment",
+    "description": "Orthodontic treatment that gradually straightens teeth and corrects bite problems.",
+    "icon": "fas fa-teeth",
+    "order": 15,
+    "is_active": true
+  },
+  {
+    "name": "Clear Aligners",
+    "description": "Transparent removable trays used to straighten teeth discreetly without traditional braces.",
+    "icon": "fas fa-graduation-cap",
+    "order": 16,
+    "is_active": true
+  },
+  {
+    "name": "Pediatric Dentistry",
+    "description": "Specialized dental care for children, focusing on preventive treatments and oral health education.",
+    "icon": "fas fa-child",
+    "order": 17,
+    "is_active": true
+  },
+  {
+    "name": "Fluoride Treatment",
+    "description": "Preventive treatment that strengthens tooth enamel and reduces the risk of cavities.",
+    "icon": "fas fa-water",
+    "order": 18,
+    "is_active": true
+  },
+  {
+    "name": "Dental Sealants",
+    "description": "Protective coatings applied to chewing surfaces of teeth to prevent decay, especially in children.",
+    "icon": "fas fa-shield-alt",
+    "order": 19,
+    "is_active": true
+  },
+  {
+    "name": "Gum Disease Treatment",
+    "description": "Diagnosis and treatment of gingivitis and periodontitis to restore gum health and prevent tooth loss.",
+    "icon": "fas fa-heartbeat",
+    "order": 20,
+    "is_active": true
+  },
+  {
+    "name": "Scaling and Root Planing",
+    "description": "Deep cleaning procedure that removes plaque and tartar below the gum line to treat gum disease.",
+    "icon": "fas fa-brush",
+    "order": 21,
+    "is_active": true
+  },
+  {
+    "name": "Emergency Dental Care",
+    "description": "Immediate treatment for dental emergencies such as severe toothaches, broken teeth, infections, and injuries.",
+    "icon": "fas fa-ambulance",
+    "order": 22,
+    "is_active": true
+  },
+  {
+    "name": "Oral Cancer Screening",
+    "description": "Examination of the mouth, tongue, and surrounding tissues to detect signs of oral cancer early.",
+    "icon": "fas fa-notes-medical",
+    "order": 23,
+    "is_active": true
+  },
+  {
+    "name": "Dental X-Rays",
+    "description": "Diagnostic imaging used to identify hidden dental problems such as cavities, bone loss, and impacted teeth.",
+    "icon": "fas fa-x-ray",
+    "order": 24,
+    "is_active": true
+  },
+  {
+    "name": "Mouthguards & Night Guards",
+    "description": "Custom-made appliances that protect teeth during sports activities or prevent damage from teeth grinding.",
+    "icon": "fas fa-shield-virus",
+    "order": 25,
+    "is_active": true
+  },
+  {
+    "name": "Smile Makeover",
+    "description": "Combination of cosmetic dental procedures designed to enhance the overall appearance of a patient's smile.",
+    "icon": "fas fa-grin-stars",
+    "order": 26,
+    "is_active": true
+  },
+  {
+    "name": "Full Mouth Rehabilitation",
+    "description": "Comprehensive treatment plan that restores oral health, function, and aesthetics for patients with extensive dental problems.",
+    "icon": "fas fa-teeth",
+    "order": 27,
+    "is_active": true
+  }
+]

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family:Arial,Helvetica,sans-serif;color:#333;">
+    <h2 style="color:#b71c1c;">Appointment Cancelled</h2>
+    <p>Dear {{ patient_name }},</p>
+    <p>Your appointment has been cancelled. Here are the details:</p>
+    <ul>
+      <li><strong>Doctor:</strong> {{ doctor_name }}</li>
+      <li><strong>Date:</strong> {{ appointment_date }}</li>
+      <li><strong>Time:</strong> {{ appointment_time }}</li>
+    </ul>
+    <p>Cancellation reason: {{ cancellation_reason }}</p>
+    <p>If you wish to rebook, please visit our site.</p>
+    <p>Regards,<br>{{ clinic_name }}</p>
+  </body>
+</html>

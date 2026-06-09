@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+<div class="dash-hero">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <h2><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h2>
+      <p>Karatina Dental Clinic — Appointment Management System</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      {% if messages_count %}
+        <a href="/admin/appointments/contactmessage/?is_read__exact=0"
+           class="btn-action orange">
+          <i class="fas fa-envelope"></i>
+          {{ messages_count }} New Message{{ messages_count|pluralize }}
+        </a>
+      {% endif %}
+      <a href="{% url 'manage_schedules' %}" class="btn-action teal w-100 justify-content-center py-2 mb-2">
+            <i class="fas fa-calendar-week"></i> Manage Schedules
+          </a>
+          <a href="/admin/" class="btn-action navy">
+        <i class="fas fa-cog"></i> Django Admin
+      </a>
+      <a href="{% url 'book_appointment' %}" class="btn-action teal">
+        <i class="fas fa-plus"></i> New Slot
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+
+  <!-- Stat Cards -->
+  <div class="row g-3 mb-5">
+    <div class="col-6 col-md col-lg">
+      <div class="stat-card sc-navy">
+        <div class="sc-icon"><i class="fas fa-calendar-alt"></i></div>
+        <h2>{{ total }}</h2>
+        <p>Total Appointments</p>
+      </div>
+    </div>
+    <div class="col-6 col-md col-lg">
+      <div class="stat-card sc-orange">
+        <div class="sc-icon"><i class="fas fa-hourglass-half"></i></div>
+        <h2>{{ pending }}</h2>
+        <p>Pending</p>
+      </div>
+    </div>
+    <div class="col-6 col-md col-lg">
+      <div class="stat-card sc-green">
+        <div class="sc-icon"><i class="fas fa-check-circle"></i></div>
+        <h2>{{ confirmed }}</h2>
+        <p>Confirmed</p>
+      </div>
+    </div>
+    <div class="col-6 col-md col-lg">
+      <div class="stat-card sc-red">
+        <div class="sc-icon"><i class="fas fa-times-circle"></i></div>
+        <h2>{{ cancelled }}</h2>
+        <p>Cancelled</p>
+      </div>
+    </div>
+    <div class="col-6 col-md col-lg">
+      <div class="stat-card sc-teal">
+        <div class="sc-icon"><i class="fas fa-user-md"></i></div>
+        <h2>{{ doctors|length }}</h2>
+        <p>Dentists</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Recent Appointments -->
+    <div class="col-lg-8">
+      <div class="dash-section">
+        <div class="dash-section-head">
+          <h5><i class="fas fa-list me-2" style="color:var(--teal);"></i>
+            Recent Appointments</h5>
+          <a href="/admin/appointments/appointment/"
+             class="btn-action navy" style="font-size:12px;">
+            View All
+          </a>
+        </div>
+        <div class="table-responsive">
+          <table class="table dash-table mb-0">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Dentist</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for appt in recent %}
+                <tr>
+                  <td>
+                    <div class="fw-semibold" style="font-size:13.5px;">
+                      {{ appt.patient.get_full_name|default:appt.patient.username }}
+                    </div>
+                    <div class="text-muted" style="font-size:11.5px;">
+                      {{ appt.patient.email|default:"No email" }}
+                    </div>
+                  </td>
+                  <td>
+                    <div style="font-size:13px;">
+                      {{ appt.slot.doctor.display_name }}
+                    </div>
+                    <div class="text-muted" style="font-size:11.5px;">
+                      {{ appt.slot.doctor.specialization }}
+                    </div>
+                  </td>
+                  <td style="font-size:13px;">
+                    {{ appt.slot.date|date:"d M Y" }}
+                  </td>
+                  <td style="font-size:13px;">
+                    {{ appt.slot.start_time|time:"H:i" }}
+                  </td>
+                  <td>
+                    {% if appt.status == 'confirmed' %}
+                      <span class="badge-confirmed">Confirmed</span>
+                    {% elif appt.status == 'cancelled' %}
+                      <span class="badge-cancelled">Cancelled</span>
+                    {% else %}
+                      <span class="badge-pending">Pending</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="d-flex gap-1">
+                      {% if appt.status == 'pending' %}
+                        <a href="{% url 'confirm_appointment' appt.id %}"
+                           class="btn-action teal"
+                           onclick="return confirm('Confirm this appointment?')"
+                           style="padding:4px 10px;font-size:11.5px;">
+                          <i class="fas fa-check"></i>
+                        </a>
+                        <a href="{% url 'admin_cancel_appointment' appt.id %}"
+                           class="btn-action red"
+                           onclick="return confirm('Cancel this appointment?')"
+                           style="padding:4px 10px;font-size:11.5px;">
+                          <i class="fas fa-times"></i>
+                        </a>
+                      {% else %}
+                        <span class="text-muted" style="font-size:12px;">—</span>
+                      {% endif %}
+                    </div>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6" class="text-center py-5 text-muted">
+                    <i class="fas fa-calendar-times" style="font-size:2rem;display:block;margin-bottom:10px;color:#ddd;"></i>
+                    No appointments yet.
+                    <a href="/admin/appointments/timeslot/add/">Add time slots</a>
+                    to get started.
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-lg-4">
+
+      <!-- Doctors List -->
+      <div class="dash-section mb-4">
+        <div class="dash-section-head">
+          <h5><i class="fas fa-user-md me-2" style="color:var(--teal);"></i>
+            Dentists</h5>
+          <a href="/admin/appointments/doctor/add/"
+             class="btn-action teal" style="font-size:12px;">
+            <i class="fas fa-plus"></i> Add
+          </a>
+        </div>
+        <div class="p-3">
+          {% for doc in doctors %}
+            <div class="doctor-card">
+              <div class="dc-avatar">{{ doc.name|first }}</div>
+              <div>
+                <h6>{{ doc.name }}</h6>
+                <p>{{ doc.specialization }}</p>
+              </div>
+              <div class="dc-slot-count">
+                {{ doc.slots.count }} slots
+              </div>
+            </div>
+          {% empty %}
+            <div class="text-center py-4 text-muted">
+              <i class="fas fa-user-md" style="font-size:2rem;color:#ddd;display:block;margin-bottom:8px;"></i>
+              No dentists added yet.
+              <a href="/admin/appointments/doctor/add/">Add one</a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="dash-section">
+        <div class="dash-section-head">
+          <h5><i class="fas fa-bolt me-2" style="color:var(--teal);"></i>
+            Quick Actions</h5>
+        </div>
+        <a href="{% url 'send_reminders' %}"
+          class="btn-action teal w-100 justify-content-center py-2"
+          onclick="return confirm('Send reminder emails to all patients with appointments tomorrow?')">
+          <i class="fas fa-bell"></i> Send Tomorrow\'s Reminders
+        </a>
+        <div class="p-3 d-flex flex-column gap-2">
+          <a href="/admin/appointments/timeslot/add/"
+             class="btn-action teal w-100 justify-content-center py-2">
+            <i class="fas fa-plus-circle"></i> Add Time Slot
+          </a>
+          <a href="/admin/appointments/doctor/add/"
+             class="btn-action navy w-100 justify-content-center py-2">
+            <i class="fas fa-user-plus"></i> Add Dentist
+          </a>
+          <a href="/admin/appointments/appointment/"
+             class="btn-action orange w-100 justify-content-center py-2">
+            <i class="fas fa-list"></i> All Appointments
+          </a>
+          <a href="/admin/appointments/contactmessage/"
+             class="btn-action teal w-100 justify-content-center py-2"
+             style="background:#5c6bc0;">
+            <i class="fas fa-envelope"></i> Contact Messages
+            {% if messages_count %}
+              <span class="badge bg-danger ms-1">{{ messages_count }}</span>
+            {% endif %}
+          </a>
+          <a href="/admin/auth/user/"
+             class="btn-action navy w-100 justify-content-center py-2"
+             style="background:#37474f;">
+            <i class="fas fa-users"></i> Manage Users
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

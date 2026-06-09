@@ -1,0 +1,350 @@
+{% extends 'base.html' %}
+{% block title %}Manage Doctor Schedules — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+<div class="dash-hero">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <h2><i class="fas fa-calendar-week me-2"></i>Doctor Schedules</h2>
+      <p>Set working days & times — then generate appointment slots</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'admin_dashboard' %}" class="btn-action navy">
+        <i class="fas fa-arrow-left"></i> Dashboard
+      </a>
+      <a href="/admin/appointments/doctorschedule/add/" class="btn-action teal">
+        <i class="fas fa-plus"></i> Add Schedule
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+
+  <!-- ── GENERATE / CLEAR SLOTS ─────────────────────────────────────────── -->
+  <div class="row g-4 mb-5">
+
+    <!-- Generate Slots Card -->
+    <div class="col-lg-6">
+      <div class="dash-section h-100">
+        <div class="dash-section-head">
+          <h5><i class="fas fa-magic me-2" style="color:var(--teal);"></i>
+            Generate Appointment Slots</h5>
+        </div>
+        <div class="p-4">
+          <p class="text-muted" style="font-size:14px;">
+            Automatically create time slots based on each doctor's weekly schedule.
+            Existing slots will not be duplicated.
+          </p>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="generate">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" style="font-size:13px;">
+                  Doctor (optional)
+                </label>
+                <select name="doctor_id" class="form-select" style="border-radius:10px;font-size:14px;">
+                  <option value="">All Doctors</option>
+                  {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">{{ doctor.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" style="font-size:13px;">
+                  Weeks Ahead
+                </label>
+                <select name="weeks" class="form-select" style="border-radius:10px;font-size:14px;">
+                  <option value="1">1 week</option>
+                  <option value="2" selected>2 weeks</option>
+                  <option value="4">4 weeks</option>
+                  <option value="8">8 weeks</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn-teal mt-3 w-100">
+              <i class="fas fa-magic me-2"></i>Generate Slots from Schedules
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clear Slots Card -->
+    <div class="col-lg-6">
+      <div class="dash-section h-100">
+        <div class="dash-section-head">
+          <h5><i class="fas fa-trash-alt me-2" style="color:#dc3545;"></i>
+            Clear Unbooked Slots</h5>
+        </div>
+        <div class="p-4">
+          <p class="text-muted" style="font-size:14px;">
+            Remove all future unbooked time slots for a doctor.
+            This is useful when a doctor's schedule changes.
+            <strong>Booked appointments will not be affected.</strong>
+          </p>
+          <form method="post"
+                onsubmit="return confirm('Clear all future unbooked slots? This cannot be undone.')">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="clear">
+            <div class="mb-3">
+              <label class="form-label fw-semibold" style="font-size:13px;">
+                Doctor
+              </label>
+              <select name="doctor_id" class="form-select" style="border-radius:10px;font-size:14px;">
+                <option value="">All Doctors</option>
+                {% for doctor in doctors %}
+                  <option value="{{ doctor.id }}">{{ doctor.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit"
+                    style="background:var(--red);color:#fff;border:none;
+                           border-radius:10px;padding:12px 24px;font-weight:700;
+                           font-size:14px;width:100%;transition:opacity .2s;">
+              <i class="fas fa-trash-alt me-2"></i>Clear Future Unbooked Slots
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-6">
+        <div class="dash-section h-100">
+          <div class="dash-section-head">
+            <h5><i class="fas fa-plus-circle me-2" style="color:var(--teal);"></i>
+              Add an Individual Slot</h5>
+          </div>
+          <div class="p-4">
+            <p class="text-muted" style="font-size:14px;">
+              Create a single appointment slot quickly for a specific doctor,
+              date and time without generating a full schedule.
+            </p>
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="add_slot">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" style="font-size:13px;">Doctor</label>
+                  <select name="slot_doctor_id" class="form-select" style="border-radius:10px;font-size:14px;" required>
+                    <option value="">Choose a doctor</option>
+                    {% for doctor in doctors %}
+                      <option value="{{ doctor.id }}">{{ doctor.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label fw-semibold" style="font-size:13px;">Date</label>
+                  <input type="date" name="slot_date" class="form-control" style="border-radius:10px;font-size:14px;" required>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label fw-semibold" style="font-size:13px;">Time</label>
+                  <input type="time" name="slot_start_time" class="form-control" style="border-radius:10px;font-size:14px;" required>
+                </div>
+              </div>
+              <button type="submit" class="btn-teal mt-3 w-100">
+                <i class="fas fa-plus me-2"></i>Add Slot</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- ── HOW TO USE ─────────────────────────────────────────────────────── -->
+  <div class="dash-section mb-5">
+    <div class="dash-section-head">
+      <h5><i class="fas fa-info-circle me-2" style="color:var(--teal);"></i>
+        How It Works</h5>
+    </div>
+    <div class="p-4">
+      <div class="row g-4">
+        <div class="col-md-4 text-center">
+          <div style="width:60px;height:60px;background:var(--teal-lt);
+                      border-radius:50%;display:flex;align-items:center;
+                      justify-content:center;margin:0 auto 12px;font-size:24px;
+                      color:var(--teal);">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h6 class="fw-bold">Step 1 — Set Schedule</h6>
+          <p class="text-muted" style="font-size:13.5px;">
+            Click <strong>Add Schedule</strong> above or go to
+            <a href="/admin/appointments/doctor/">Doctor Admin</a>.
+            Set which days and times each doctor is available each week.
+          </p>
+        </div>
+        <div class="col-md-4 text-center">
+          <div style="width:60px;height:60px;background:var(--teal-lt);
+                      border-radius:50%;display:flex;align-items:center;
+                      justify-content:center;margin:0 auto 12px;font-size:24px;
+                      color:var(--teal);">
+            <i class="fas fa-magic"></i>
+          </div>
+          <h6 class="fw-bold">Step 2 — Generate Slots</h6>
+          <p class="text-muted" style="font-size:13.5px;">
+            Use the Generate Slots form above to automatically create
+            bookable appointment slots for the next 2 or 4 weeks based
+            on the doctor's schedule.
+          </p>
+        </div>
+        <div class="col-md-4 text-center">
+          <div style="width:60px;height:60px;background:var(--teal-lt);
+                      border-radius:50%;display:flex;align-items:center;
+                      justify-content:center;margin:0 auto 12px;font-size:24px;
+                      color:var(--teal);">
+            <i class="fas fa-users"></i>
+          </div>
+          <h6 class="fw-bold">Step 3 — Patients Book</h6>
+          <p class="text-muted" style="font-size:13.5px;">
+            Patients see only the generated slots when they visit the
+            booking page. Each slot can be booked by exactly one patient.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DOCTOR SCHEDULE CARDS ──────────────────────────────────────────── -->
+  <h4 class="fw-bold mb-4" style="color:var(--navy);">
+    <i class="fas fa-user-md me-2" style="color:var(--teal);"></i>
+    Current Doctor Schedules
+  </h4>
+
+  {% for item in schedule_data %}
+    <div class="dash-section mb-4">
+      <div class="dash-section-head">
+        <div class="d-flex align-items-center gap-3">
+          <div style="width:46px;height:46px;border-radius:50%;
+                      background:linear-gradient(135deg,var(--teal),var(--teal-dk));
+                      color:#fff;display:flex;align-items:center;
+                      justify-content:center;font-weight:800;font-size:18px;">
+            {{ item.doctor.name|first }}
+          </div>
+          <div>
+            <div class="fw-bold" style="color:var(--navy);">
+              {{ item.doctor.name }}
+            </div>
+            <div style="font-size:13px;color:var(--muted);">
+              {{ item.doctor.specialization }}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <span style="background:var(--teal-lt);color:var(--teal);
+                       border-radius:20px;padding:4px 14px;
+                       font-size:13px;font-weight:700;">
+            {{ item.available }} available slots
+          </span>
+          <a href="/admin/appointments/doctor/{{ item.doctor.id }}/change/"
+             class="btn-action navy" style="font-size:12px;">
+            <i class="fas fa-edit"></i> Edit Schedule
+          </a>
+        </div>
+      </div>
+
+      <div class="p-4">
+        {% if item.schedules %}
+          <div class="row g-3">
+            {% for schedule in item.schedules %}
+              <div class="col-md-4 col-lg-3">
+                <div style="background:var(--light);border-radius:12px;
+                            padding:16px;border-left:4px solid var(--teal);
+                            height:100%;">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    {% with day=schedule.day_of_week %}
+                    {% if day == 0 %}
+                      <span style="background:#3f51b5;color:#fff;border-radius:8px;
+                                   padding:3px 10px;font-size:12px;font-weight:700;">
+                        {{ schedule.get_day_of_week_display }}
+                      </span>
+                    {% elif day == 1 %}
+                      <span style="background:#009688;color:#fff;border-radius:8px;
+                                   padding:3px 10px;font-size:12px;font-weight:700;">
+                        {{ schedule.get_day_of_week_display }}
+                      </span>
+                    {% elif day == 2 %}
+                      <span style="background:#ff5722;color:#fff;border-radius:8px;
+                                   padding:3px 10px;font-size:12px;font-weight:700;">
+                        {{ schedule.get_day_of_week_display }}
+                      </span>
+                    {% elif day == 3 %}
+                      <span style="background:#795548;color:#fff;border-radius:8px;
+                                   padding:3px 10px;font-size:12px;font-weight:700;">
+                        {{ schedule.get_day_of_week_display }}
+                      </span>
+                    {% elif day == 4 %}
+                      <span style="background:#607d8b;color:#fff;border-radius:8px;
+                                   padding:3px 10px;font-size:12px;font-weight:700;">
+                        {{ schedule.get_day_of_week_display }}
+                      </span>
+                    {% elif day == 5 %}
+                      <span style="background:#e91e63;color:#fff;border-radius:8px;
+                                   padding:3px 10px;font-size:12px;font-weight:700;">
+                        {{ schedule.get_day_of_week_display }}
+                      </span>
+                    {% else %}
+                      <span style="background:#9c27b0;color:#fff;border-radius:8px;
+                                   padding:3px 10px;font-size:12px;font-weight:700;">
+                        {{ schedule.get_day_of_week_display }}
+                      </span>
+                    {% endif %}
+                    {% endwith %}
+                    {% if schedule.is_active %}
+                      <span style="background:#e8f5e9;color:#2e7d32;
+                                   border-radius:6px;padding:2px 8px;
+                                   font-size:11px;font-weight:700;">
+                        Active
+                      </span>
+                    {% else %}
+                      <span style="background:#ffebee;color:#c62828;
+                                   border-radius:6px;padding:2px 8px;
+                                   font-size:11px;font-weight:700;">
+                        Inactive
+                      </span>
+                    {% endif %}
+                  </div>
+                  <div class="mt-2">
+                    <div style="font-size:13.5px;color:var(--navy);font-weight:600;">
+                      <i class="fas fa-clock me-1" style="color:var(--teal);"></i>
+                      {{ schedule.start_time|time:"H:i" }} – {{ schedule.end_time|time:"H:i" }}
+                    </div>
+                    <div style="font-size:12.5px;color:var(--muted);margin-top:4px;">
+                      <i class="fas fa-hourglass-half me-1"></i>
+                      {{ schedule.get_slot_duration_display }} per slot
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-4">
+            <i class="fas fa-calendar-times"
+               style="font-size:2.5rem;color:#ddd;display:block;margin-bottom:12px;"></i>
+            <p class="text-muted mb-3">
+              No schedule set for {{ item.doctor.name }} yet.
+            </p>
+            <a href="/admin/appointments/doctor/{{ item.doctor.id }}/change/"
+               class="btn-teal">
+              <i class="fas fa-plus me-2"></i>Set Schedule
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% empty %}
+    <div class="dash-section">
+      <div class="text-center py-5">
+        <i class="fas fa-user-md"
+           style="font-size:3rem;color:#ddd;display:block;margin-bottom:16px;"></i>
+        <h5 class="text-muted">No doctors added yet.</h5>
+        <a href="/admin/appointments/doctor/add/" class="btn-teal mt-2">
+          <i class="fas fa-plus me-2"></i>Add First Doctor
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

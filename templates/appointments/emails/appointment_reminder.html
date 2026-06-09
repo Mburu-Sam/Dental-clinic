@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family:Arial,Helvetica,sans-serif;color:#333;">
+    <h2 style="color:#004d40;">Appointment Reminder</h2>
+    <p>Dear {{ patient_name }},</p>
+    <p>This is a friendly reminder for your appointment tomorrow:</p>
+    <ul>
+      <li><strong>Doctor:</strong> {{ doctor_name }}</li>
+      <li><strong>Date:</strong> {{ appointment_date }}</li>
+      <li><strong>Time:</strong> {{ appointment_time }}</li>
+      <li><strong>Location:</strong> {{ clinic_location }}</li>
+    </ul>
+    <p>We look forward to seeing you.</p>
+    <p>Best regards,<br>{{ clinic_name }}<br>{{ clinic_phone }}</p>
+  </body>
+</html>

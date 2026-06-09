@@ -1,0 +1,33 @@
+.env
+*.log
+sent_emails/
+
+# Python / Django
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+*.sqlite3-journal
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Django generated files
+media/
+staticfiles/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

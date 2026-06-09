@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block title %}Book Appointment — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+<div class="book-hero">
+  <div class="container">
+    <h2><i class="fas fa-calendar-plus me-2"></i>Book an Appointment</h2>
+    <p>Choose your dentist and select an available time slot</p>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+
+      <!-- Step 1: Select Doctor -->
+      <div class="booking-card">
+        <div class="step-badge"><i class="fas fa-user-md me-1"></i> Step 1</div>
+        <h5>Select a Dentist</h5>
+        <form method="get">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-8">
+              <label class="form-label fw-semibold">Choose Dentist</label>
+              <select name="doctor_id" class="form-select">
+                <option value="">-- Select a dentist --</option>
+                {% for doctor in doctors %}
+                  <option value="{{ doctor.id }}"
+                    {% if selected_doctor.id == doctor.id %}selected{% endif %}>
+                    {{ doctor.name }} — {{ doctor.specialization }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4">
+              <button type="submit" class="btn-teal w-100 py-3">
+                <i class="fas fa-search me-2"></i>View Slots
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2: Select Slot -->
+      {% if selected_doctor %}
+      <div class="booking-card">
+        <div class="step-badge"><i class="fas fa-clock me-1"></i> Step 2</div>
+        <h5>Select a Time Slot</h5>
+        <div class="doctor-badge">
+          <i class="fas fa-user-md"></i>
+          {{ selected_doctor.display_name }} — {{ selected_doctor.specialization }}
+        </div>
+
+        {% if slots %}
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Reason for Visit
+                <span class="text-muted fw-normal">(optional)</span>
+              </label>
+              <textarea name="reason" class="form-control" rows="2"
+                placeholder="e.g. Toothache, routine check-up, teeth cleaning..."></textarea>
+            </div>
+            <label class="form-label fw-semibold mb-3">
+              Available Slots
+              <span class="badge bg-success ms-2">{{ slots|length }} available</span>
+            </label>
+            <div class="slot-grid">
+              {% for slot in slots %}
+                <div class="slot-item">
+                  <div class="slot-date">
+                    {{ slot.date|date:"D, d M" }}
+                  </div>
+                  <div class="slot-time">{{ slot.start_time|time:"H:i" }}</div>
+                  <button type="submit" name="slot_id" value="{{ slot.id }}"
+                          class="slot-btn"
+                          onclick="return confirm('Book appointment on {{ slot.date }} at {{ slot.start_time }}?')">
+                    Book Slot
+                  </button>
+                </div>
+              {% endfor %}
+            </div>
+          </form>
+        {% else %}
+          <div class="no-slots">
+            <i class="fas fa-calendar-times"></i>
+            <h6 class="mt-2">No Available Slots</h6>
+            <p class="mb-0">
+              {{ selected_doctor.display_name }} has no available slots right now.
+              Please try another dentist or check back later.
+            </p>
+          </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <!-- Info Cards -->
+      <div class="row g-3 mt-2">
+        <div class="col-md-4">
+          <div class="booking-card text-center py-4">
+            <i class="fas fa-clock" style="font-size:2rem;color:var(--teal);"></i>
+            <h6 class="mt-2 fw-bold">Working Hours</h6>
+            <p class="text-muted mb-0" style="font-size:13px;">
+              Mon–Fri: 8AM–6PM<br>Saturday: 8AM–2PM
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="booking-card text-center py-4">
+            <i class="fas fa-phone" style="font-size:2rem;color:var(--teal);"></i>
+            <h6 class="mt-2 fw-bold">Call Us</h6>
+            <p class="text-muted mb-0" style="font-size:13px;">
+              <a href="tel:+254700000000" style="color:var(--teal);">
+                +254 700 000 000
+              </a>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="booking-card text-center py-4">
+            <i class="fas fa-map-marker-alt" style="font-size:2rem;color:var(--teal);"></i>
+            <h6 class="mt-2 fw-bold">Location</h6>
+            <p class="text-muted mb-0" style="font-size:13px;">
+              Karatina Plaza,<br>Karatina Town
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

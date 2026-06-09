@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us — Karatina Dental Clinic{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="contact-page-hero">
+  <span class="contact-pill">Contact Us</span>
+  <h1>Contact Karatina Dental Clinic</h1>
+  <p>Consultation for only Kes 500! Walk in or book online.</p>
+</div>
+
+<!-- Orange Info Banner -->
+<div class="info-banner">
+  <div class="container">
+    <div class="row align-items-center justify-content-center g-3">
+      <div class="col-lg-4 col-md-12">
+        <div class="info-block">
+          <div class="info-block-icon"><i class="fas fa-phone-alt"></i></div>
+          <div class="info-block-text">
+            <h5>Talk To Us</h5>
+            <p>+254 700 000 000<br>info@karatinadental.co.ke</p>
+          </div>
+        </div>
+      </div>
+      <div class="info-banner-divider d-none d-lg-block"></div>
+      <div class="col-lg-4 col-md-12">
+        <div class="info-block">
+          <div class="info-block-icon"><i class="fas fa-map-marked-alt"></i></div>
+          <div class="info-block-text">
+            <h5>Karatina Town</h5>
+            <p>Ground Floor, Karatina Plaza,<br>Karatina Town, Nyeri County.</p>
+          </div>
+        </div>
+      </div>
+      <div class="info-banner-divider d-none d-lg-block"></div>
+      <div class="col-lg-3 col-md-12">
+        <div class="info-block">
+          <div class="info-block-icon"><i class="fas fa-clock"></i></div>
+          <div class="info-block-text">
+            <h5>Working Hours</h5>
+            <p>Mon – Sat: 8AM to 6PM<br>Sunday: Closed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container py-5">
+  <div class="row g-5">
+
+    <!-- Left: Contact Form -->
+    <div class="col-lg-8">
+      <div class="contact-form-card">
+        <h4>
+          <i class="fas fa-paper-plane me-2" style="color:var(--orange);"></i>
+          Send Us a Message
+        </h4>
+
+        {% if success %}
+          <div class="alert alert-success border-0 rounded-3 mb-4">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>Message sent!</strong>
+            We will contact you shortly on the number provided.
+          </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'contact' %}">
+          {% csrf_token %}
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Full Name *</label>
+              <input type="text" name="full_name" class="form-control"
+                     placeholder="e.g. Jane Wanjiku" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email Address</label>
+              <input type="email" name="email" class="form-control"
+                     placeholder="jane@example.com">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Phone Number *</label>
+            <input type="tel" name="phone" class="form-control"
+                   placeholder="+254 7XX XXX XXX" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Select Service You Want</label>
+            <div class="service-checkbox-grid">
+              {% for service in service_list %}
+                <label class="service-check-item">
+                  <input type="checkbox" name="services" value="{{ service.name }}">
+                  {{ service.name }}
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Message / Additional Notes</label>
+            <textarea name="message" class="form-control" rows="4"
+              placeholder="Tell us about your dental concern..."></textarea>
+          </div>
+          <button type="submit" class="btn-orange">
+            <i class="fas fa-paper-plane me-2"></i>Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right: Info Cards -->
+    <div class="col-lg-4 contact-info-panel">
+
+      <!-- Opening Hours -->
+      <div class="info-card">
+        <div class="d-flex align-items-center mb-3">
+          <span class="card-icon me-2" style="font-size:20px;color:var(--orange);">
+            <i class="fas fa-hourglass-half"></i>
+          </span>
+          <h6 class="mb-0">OPENING HOURS</h6>
+        </div>
+        <div class="hours-row">
+          <span class="day">Monday – Friday</span>
+          <span class="time">8AM – 6PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="day">Saturday</span>
+          <span class="time">8AM – 2PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="day">Sunday</span>
+          <span class="time closed">Closed</span>
+        </div>
+      </div>
+
+      <!-- Insurance -->
+      <div class="info-card">
+        <div class="d-flex align-items-center mb-3">
+          <span class="card-icon me-2" style="font-size:20px;color:var(--orange);">
+            <i class="fas fa-shield-alt"></i>
+          </span>
+          <h6 class="mb-0">INSURANCE ACCEPTED</h6>
+        </div>
+        <p>
+          We work with most medical insurance providers in Kenya including
+          AAR, Jubilee, CIC, NHIF and more. Ask us about your cover.
+        </p>
+      </div>
+
+      <!-- Family Dental Care -->
+      <div class="info-card">
+        <div class="d-flex align-items-center mb-3">
+          <span class="card-icon me-2" style="font-size:20px;color:var(--orange);">
+            <i class="fas fa-tooth"></i>
+          </span>
+          <h6 class="mb-0">FAMILY DENTAL CARE</h6>
+        </div>
+        <p>
+          We offer comprehensive and personalised dental care for all family
+          members — from young children to adults and seniors.
+        </p>
+      </div>
+
+      <!-- Quick Book CTA -->
+      <div class="book-cta-panel">
+        <i class="fas fa-calendar-check" style="font-size:2rem;color:#fff;
+           margin-bottom:12px;display:block;"></i>
+        <h6>Ready to Book?</h6>
+        <p>Skip the form and book your appointment directly online.</p>
+        <a href="{% url 'book_appointment' %}" class="book-cta-btn">
+          Book Appointment Online
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

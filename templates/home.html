@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% block title %}Karatina Dental Clinic — Home{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container hero-content">
+    <div class="row align-items-center g-5">
+
+      <!-- Left -->
+      <div class="col-lg-6">
+        <div class="hero-badge">
+          <i class="fas fa-tooth"></i> Karatina's Trusted Dental Clinic
+        </div>
+        <h1>A Brighter Smile<br>Starts <span>Right Here</span></h1>
+        <p class="hero-desc">
+          General, Cosmetic and Restorative Dentistry for the whole family.
+          Serving Karatina and Nyeri County with affordable, professional dental care.
+        </p>
+        <div class="d-flex gap-3 flex-wrap mb-4">
+          <a href="{% url 'book_appointment' %}" class="btn-teal btn-lg px-4">
+            <i class="fas fa-calendar-plus"></i> Book Appointment
+          </a>
+          <a href="#services" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+            Our Services
+          </a>
+        </div>
+        <div class="d-flex gap-4 flex-wrap">
+          <span class="hero-trust"><i class="fas fa-check-circle"></i> Qualified Dentists</span>
+          <span class="hero-trust"><i class="fas fa-check-circle"></i> Affordable Pricing</span>
+          <span class="hero-trust"><i class="fas fa-check-circle"></i> Modern Equipment</span>
+        </div>
+      </div>
+
+      <!-- Right: Booking Card -->
+      <div class="col-lg-6">
+        <div class="hero-card">
+          <h4>
+            <i class="fas fa-calendar-check me-2" style="color:var(--teal);"></i>
+            Book an Appointment
+          </h4>
+          <p class="text-muted mb-4" style="font-size:13.5px;">
+            Select a dentist and available time slot
+          </p>
+
+          {% if user.is_authenticated %}
+            <form method="get" action="{% url 'book_appointment' %}">
+              <div class="mb-3">
+                <label class="form-label fw-semibold" style="font-size:13px;">
+                  Select Dentist
+                </label>
+                <select name="doctor_id" class="form-select">
+                  <option value="">-- Choose a dentist --</option>
+                  {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">
+                      {{ doctor.display_name }} — {{ doctor.specialization }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <button type="submit" class="btn-teal w-100">
+                <i class="fas fa-search me-2"></i>View Available Slots
+              </button>
+            </form>
+          {% else %}
+            <div class="text-center py-3">
+              <i class="fas fa-user-circle" style="font-size:3rem;color:var(--teal);"></i>
+              <p class="mt-3 text-muted">Please log in to book an appointment</p>
+              <a href="{% url 'login' %}" class="btn-teal w-100 mb-2 d-block text-center py-3">
+                <i class="fas fa-sign-in-alt me-2"></i>Login to Book
+              </a>
+              <a href="{% url 'register' %}"
+                 class="btn btn-outline-secondary w-100 mt-2">
+                New Patient? Register Here
+              </a>
+            </div>
+          {% endif %}
+
+          <div class="d-flex align-items-center gap-2 mt-4 pt-3 border-top">
+            <i class="fab fa-whatsapp" style="color:#25D366;font-size:22px;"></i>
+            <div>
+              <div style="font-size:12px;color:#6c757d;">Or book via WhatsApp</div>
+              <a href="https://wa.me/254748681792" target="_blank"
+                 style="font-weight:700;color:var(--navy);font-size:14px;text-decoration:none;">
+                +254 748 681 792
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ─────────────────────────────────────────────── -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md-3 stat-item"><h2>500+</h2><p>Happy Patients</p></div>
+      <div class="col-6 col-md-3 stat-item"><h2>3</h2><p>Qualified Dentists</p></div>
+      <div class="col-6 col-md-3 stat-item"><h2>8+</h2><p>Years of Service</p></div>
+      <div class="col-6 col-md-3 stat-item"><h2>1K+</h2><p>Appointments Done</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ──────────────────────────────────────────── -->
+<section class="section-py" id="services">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">What We Offer</span>
+      <h2 class="section-title mt-2">Our Dental Services</h2>
+      <div class="title-bar"></div>
+      <p class="text-muted mt-3" style="max-width:520px;margin:auto;">
+        Comprehensive dental care for the whole family using modern equipment
+        in a comfortable, friendly environment.
+      </p>
+    </div>
+    <div class="row g-4">
+      {% for service in services %}
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="service-icon"><i class="{{ service.icon }}"></i></div>
+            <h5>{{ service.name }}</h5>
+            <p>{{ service.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-5">
+      <a href="{% url 'book_appointment' %}" class="btn-teal btn-lg px-5 rounded-pill">
+        <i class="fas fa-calendar-plus me-2"></i>Book a Service Now
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT / WHY US ────────────────────────────────────── -->
+<section class="section-py bg-light" id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="section-label">About Us</span>
+        <h2 class="section-title mt-2">
+          Trusted Dental Care<br>in Karatina Town
+        </h2>
+        <div class="title-bar" style="margin:12px 0 20px;"></div>
+        <p class="text-muted" style="line-height:1.9;">
+          Karatina Dental Clinic is your local, trusted facility for all dental
+          services in Karatina and Nyeri County. We provide affordable,
+          professional dental care using the latest technology with strict
+          infection control protocols.
+        </p>
+        <p class="text-muted" style="line-height:1.9;">
+          Our experienced dental team is dedicated not just to treating pain
+          but to improving the overall quality of life and confidence of every
+          patient we serve.
+        </p>
+        <a href="{% url 'book_appointment' %}" class="btn-teal mt-3 px-4 rounded-pill">
+          Book an Appointment
+        </a>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          {% for title, desc, icon in why_us %}
+            <div class="col-12">
+              <div class="why-box">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                  <div class="why-icon"><i class="{{ icon }}"></i></div>
+                  <h6 class="mb-0">{{ title }}</h6>
+                </div>
+                <p>{{ desc }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DOCTORS ───────────────────────────────────────────── -->
+{% if doctors %}
+<section class="section-py">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Our Team</span>
+      <h2 class="section-title mt-2">Meet Our Dentists</h2>
+      <div class="title-bar"></div>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for doc in doctors %}
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm text-center h-100" style="border-radius:16px;overflow:hidden;">
+            <div style="background:linear-gradient(135deg,var(--navy),var(--teal));
+                        height:120px;display:flex;align-items:center;justify-content:center;">
+              {% if doc.photo %}
+                <img src="{{ doc.photo.url }}" alt="{{ doc.name }}"
+                     style="width:90px;height:90px;border-radius:50%;
+                            object-fit:cover;border:3px solid #fff;">
+              {% else %}
+                <div style="width:90px;height:90px;border-radius:50%;
+                            background:rgba(255,255,255,.2);
+                            display:flex;align-items:center;justify-content:center;
+                            font-size:36px;color:#fff;">
+                  <i class="fas fa-user-md"></i>
+                </div>
+              {% endif %}
+            </div>
+            <div class="card-body p-4">
+              <h5 class="fw-bold mb-1" style="color:var(--navy);">{{ doc.name }}</h5>
+              <p style="color:var(--teal);font-size:13px;font-weight:600;">
+                {{ doc.specialization }}
+              </p>
+              {% if doc.bio %}
+                <p class="text-muted" style="font-size:13.5px;">{{ doc.bio }}</p>
+              {% endif %}
+              <a href="{% url 'book_appointment' %}?doctor_id={{ doc.id }}"
+                 class="btn-teal d-inline-flex mt-2">
+                <i class="fas fa-calendar-plus me-2"></i>Book with this Dentist
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── TESTIMONIALS ──────────────────────────────────────── -->
+<section class="section-py bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Patient Reviews</span>
+      <h2 class="section-title mt-2">What Our Patients Say</h2>
+      <div class="title-bar"></div>
+    </div>
+    <div class="row g-4">
+      {% for name, review in testimonials %}
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="stars mb-3">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>"{{ review }}"</p>
+            <div class="d-flex align-items-center gap-3 mt-3 pt-3 border-top">
+              <div class="t-avatar">{{ name|first }}</div>
+              <div>
+                <div style="font-weight:700;color:var(--navy);font-size:14px;">{{ name }}</div>
+                <div style="font-size:12px;color:var(--teal);">Karatina Patient</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT SECTION ───────────────────────────────────── -->
+<section class="section-py home-contact" id="contact">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Find Us</span>
+      <h2 class="section-title mt-2">Contact & Location</h2>
+      <div class="title-bar"></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="contact-info-card">
+          <h5 class="fw-bold mb-4" style="color:var(--navy);">Clinic Information</h5>
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="info-label">Location</div>
+              <div class="info-value">
+                Karatina Plaza, Ground Floor<br>Karatina Town, Nyeri County, Kenya
+              </div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <div class="info-label">Phone</div>
+              <div class="info-value">
+                <a href="tel:+254748681792">+254 748 681 792</a>
+              </div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="info-label">Email</div>
+              <div class="info-value">
+                <a href="mailto:karatinaclinic@gmail.com">karatinaclinic@gmail.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="info-label">Working Hours</div>
+              <div class="info-value">
+                Monday – Friday: 8:00 AM – 6:00 PM<br>
+                Saturday: 8:00 AM – 2:00 PM<br>
+                <span style="color:#dc3545;">Sunday: Closed</span>
+              </div>
+            </div>
+          </div>
+          <a href="{% url 'contact' %}" class="btn-teal mt-2">
+            <i class="fas fa-paper-plane me-2"></i>Send Us a Message
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div style="border-radius:16px;overflow:hidden;height:100%;
+                    min-height:380px;box-shadow:var(--shadow-sm);">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.4!2d37.0!3d-0.48!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zKaratina!5e0!3m2!1sen!2ske!4v1"
+            width="100%" height="100%" style="border:0;min-height:380px;"
+            allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
